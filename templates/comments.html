@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% extends "index.html" %}
+{% block content %}
+<div class="post">
+    <h2>{{ post.title }}</h2>
+    {% if post.image %}
+    <div class="post-img">
+        <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="">
+    </div>
+    {% endif %}
+    <p>{{ post.text }}</p>
+</div>
+
+<form method="post">
+    <h2>Add comment</h2>
+    <input type="text" name="name" placeholder="Your name" required>
+    <textarea name="text" placeholder="Your comment" required></textarea>
+    <button type="submit">Send</button>
+</form>
+
+<h2 style="text-align:center; margin-top:20px">Comments</h2>
+{% for c in comments %}
+<div class="comment">
+    <b>{{ c.name }}</b>
+    <p>{{ c.text }}</p>
+</div>
+{% else %}
+<p style="text-align:center">No comments yet.</p>
+{% endfor %}
+
+<p style="text-align:center"><a href="{{ url_for('index') }}"> Back to posts</a></p>
+{% endblock %}
+
+</body>
+</html>

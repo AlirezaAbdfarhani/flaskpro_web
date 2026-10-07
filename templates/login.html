@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+{% extends "index.html" %}
+{% block content %}
+<form method="post">
+    <h2>Login</h2>
+    {% for msg in get_flashed_messages() %}
+        <p id="errorMsg">{{ msg }}</p>
+    {% endfor %}
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+</form>
+{% endblock %}
+
+</body>
+</html>

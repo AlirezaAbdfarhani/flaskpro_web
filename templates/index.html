@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My weblog</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <div><h1>Welcome To My Weblog</h1></div>
+        <div id="logo"><img src="{{ url_for('static', filename='pic.jpg') }}" alt="logo"></div>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            {% if session.get('logged_in') %}
+                <li><a href="{{ url_for('new_post') }}">new post</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <main>
+        {% block content %}
+        {% for post in posts %}
+        <div class="post">
+            <h2>{{ post.title }}</h2>
+
+            {% if post.image %}
+            <div class="post-img">
+                <img src="{{ url_for('static', filename='uploads/' + post.image) }}" alt="">
+            </div>
+            {% endif %}
+
+            <p>{{ post.text }}</p>
+
+            <div class="post-btn">
+                {% if session.get('logged_in') %}
+                    <a href="{{ url_for('edit_post', post_id=post.id) }}">edit post</a>
+                    <a class="del-btn" href="{{ url_for('delete_post', post_id=post.id) }}"
+                       onclick="return confirm('Delete this post?')">delete post</a>
+                {% endif %}
+                <a href="{{ url_for('comments', post_id=post.id) }}">view the comment</a>
+            </div>
+        </div>
+        {% else %}
+            <h2 style="text-align:center">no posts yet</h2>
+        {% endfor %}
+        {% endblock %}
+    </main>
+
+    <footer>Alireza Abdfarhani</footer>
+</body>
+</html>
